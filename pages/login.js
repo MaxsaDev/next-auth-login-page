@@ -1,63 +1,90 @@
 import Head from "next/head";
 import Layout from "@nauth/layout/layout";
 import Link from "next/link";
+import styles from '@nauth/styles/Form.module.css';
+import Image from "next/image";
+import {HiAtSymbol, HiFingerPrint} from "react-icons/hi";
+import {useState} from "react";
 
 export default function Login() {
+  const [show, setShow] = useState(false);
+
   return (
     <Layout>
       <Head>
         <title>Login</title>
       </Head>
+
       <section className={'w-3/4 mx-auto flex flex-col gap-10'}>
+
         <div className="title">
-          <h1 className="text-gray-800 text-4xl font-bold py-4 underline">Login</h1>
+          <h1 className="text-gray-800 text-4xl font-bold py-4">Explore</h1>
           <p className={'w-3/4 mx-auto text-gray-400'}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           </p>
         </div>
+
         <form className={'flex flex-col gap-5'} action="">
-          <div className="input-group">
-            <label htmlFor="email" className="text-gray-400">Email</label>
+
+          <div className={styles.input_group}>
             <input type="email"
                    name="email"
                    id="email"
                    placeholder={'Enter your email'}
+                   className={styles.input_text}
             />
+            <span className={'icon flex items-center px-4'}>
+              <HiAtSymbol size={25}/>
+            </span>
           </div>
 
-          <div className="input-group">
-            <label htmlFor="password" className="text-gray-400">Password</label>
-            <input type="password"
+          <div className={styles.input_group}>
+            <input type={show ? 'text' : 'password'}
                    name="password"
                    id="password"
                    placeholder={'Enter your password'}
+                   className={styles.input_text}
             />
+            <span className={'icon flex items-center px-4'}
+                  onClick={() => setShow(!show)}
+            >
+              <HiFingerPrint size={25}/>
+            </span>
           </div>
 
           <div className="input-buttons">
-            <button type={'submit'}>
+            <button type={'submit'}
+                    className={styles.button}
+            >
               Login
             </button>
           </div>
 
           <div className="input-buttons">
-            <button type={'submit'}>
-              Sign with Google
+            <button type={'button'}
+                    className={styles.button_custom}
+            >
+              Sign with Google <Image src={'assets/google.svg'} alt={'google auth'} width={'20'} height={20}/>
             </button>
           </div>
 
           <div className="input-buttons">
-            <button type={'submit'}>
-              Sign with Github
+            <button type={'button'}
+                    className={styles.button_custom}
+            >
+              Sign with Github <Image src={'assets/github.svg'} alt={'github auth'} width={25} height={25}/>
             </button>
           </div>
 
         </form>
+
         <p className={'text-center text-grey-400'}>
-          Don't have an account? <Link href={'/register'} className={'text-blue-700'}>Register</Link>
+          don't have an account? <Link href={'/register'} className={'text-blue-700'}>Sign Up</Link>
         </p>
-        <div className="bottom"></div>
+
+
       </section>
+
     </Layout>
   );
 };
