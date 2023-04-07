@@ -1,13 +1,18 @@
-import Head from "next/head";
-import Layout from "@nauth/layout/layout";
-import Link from "next/link";
-import styles from '@nauth/styles/Form.module.css';
-import Image from "next/image";
-import {HiAtSymbol, HiFingerPrint} from "react-icons/hi";
 import {useState} from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import Layout from "@nauth/layout/layout";
+import styles from '@nauth/styles/Form.module.css';
+import {HiAtSymbol, HiFingerPrint} from "react-icons/hi";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Login() {
   const [show, setShow] = useState(false);
+
+  const handleGoogleSignIn = async () => {
+    signIn('google', {callbackUrl: 'http://localhost:3000'})
+  }
 
   return (
     <Layout>
@@ -63,6 +68,7 @@ export default function Login() {
           <div className="input-buttons">
             <button type={'button'}
                     className={styles.button_custom}
+                    onClick={handleGoogleSignIn}
             >
               Sign with Google <Image src={'assets/google.svg'} alt={'google auth'} width={'20'} height={20}/>
             </button>
