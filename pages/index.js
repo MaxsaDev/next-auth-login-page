@@ -5,8 +5,8 @@ import { useSession, signOut, getSession } from "next-auth/react";
 
 
 export default function Home() {
-  // const [session, setSession] = useState(true);
   const { data: session } = useSession();
+
 
   const handleSignOut = () => {
     signOut();

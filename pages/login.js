@@ -5,15 +5,18 @@ import Image from "next/image";
 import Layout from "@nauth/layout/layout";
 import styles from '@nauth/styles/Form.module.css';
 import {HiAtSymbol, HiFingerPrint} from "react-icons/hi";
-import { signIn } from "next-auth/react";
+import {signIn} from "next-auth/react";
 import {useFormik} from "formik";
 import login_validate from "@nauth/lib/validate";
+import {redirect} from "next/navigation";
+import {useRouter} from "next/router";
 
 export default function Login() {
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       email: '',
       password: ''
     },
@@ -21,17 +24,25 @@ export default function Login() {
     onSubmit
   });
 
-  formik.errors
-
-  async function onSubmit(values){
-    console.log(values)
+  async function onSubmit(values) {
+    const status = await signIn(
+      'credentials', {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: '/',
+      }
+    )
+    if(status.ok) {
+      await router.push(status.url)
+    }
   }
 
   const handleGoogleSignIn = async () => {
-    signIn('google', {callbackUrl: 'http://localhost:3000'})
+    await signIn('google', {callbackUrl: 'http://localhost:3000'})
   }
   const handleGithubSignIn = async () => {
-    signIn('github', {callbackUrl: 'http://localhost:3000'})
+    await signIn('github', {callbackUrl: 'http://localhost:3000'})
   }
 
   return (
@@ -57,8 +68,8 @@ export default function Login() {
                    id="email"
                    placeholder={'Enter your email'}
                    className={styles.input_text}
-                   // onChange={formik.handleChange}
-                   // value={formik.values.email}
+              // onChange={formik.handleChange}
+              // value={formik.values.email}
                    {...formik.getFieldProps('email')}
             />
             <span className={'icon flex items-center px-4'}>
@@ -73,8 +84,8 @@ export default function Login() {
                    id="password"
                    placeholder={'Enter your password'}
                    className={styles.input_text}
-                   // onChange={formik.handleChange}
-                   // value={formik.values.password}
+              // onChange={formik.handleChange}
+              // value={formik.values.password}
                    {...formik.getFieldProps('password')}
             />
             <span className={'icon flex items-center px-4'}
