@@ -1,8 +1,7 @@
-import {useState} from "react";
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '@nauth/styles/Home.module.css'
-import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import { useSession, signOut, getSession } from "next-auth/react";
 
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
 
   const handleSignOut = () => {
     signOut();
-
   }
   return (
     <div className={styles.container}>
